@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zon Bumijaya - Process</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Inter:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e4e2dd",
+                        "inverse-primary": "#775a19",
+                        "surface-variant": "#353534",
+                        "inverse-on-surface": "#313030",
+                        "surface-tint": "#e9c176",
+                        "outline-variant": "#4e4639",
+                        "on-primary-fixed": "#261900",
+                        "border-low-light": "rgba(197, 160, 89, 0.2)",
+                        "surface-dim": "#131313",
+                        "gold-muted": "#A8884B",
+                        "tertiary-container": "#a6a5a1",
+                        "on-secondary-fixed-variant": "#56423d",
+                        "on-primary-container": "#4e3700",
+                        "primary-container": "#c5a059",
+                        "surface-container-low": "#1c1b1b",
+                        "on-error-container": "#ffdad6",
+                        "secondary-container": "#56423d",
+                        "tertiary": "#c8c6c2",
+                        "on-secondary": "#3e2c28",
+                        "background": "#131313",
+                        "on-surface-variant": "#d1c5b4",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#fadcd5",
+                        "on-secondary-container": "#caafa9",
+                        "surface-container": "#201f1f",
+                        "error": "#ffb4ab",
+                        "primary-fixed-dim": "#e9c176",
+                        "primary": "#e9c176",
+                        "secondary-fixed-dim": "#ddc0ba",
+                        "secondary": "#ddc0ba",
+                        "outline": "#9a8f80",
+                        "on-secondary-fixed": "#271814",
+                        "surface-container-highest": "#353534",
+                        "espresso-dark": "#1A100E",
+                        "on-tertiary-container": "#3b3b38",
+                        "on-tertiary": "#30312e",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface": "#131313",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary-fixed-variant": "#5d4201",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-fixed-dim": "#c8c6c2",
+                        "cream-surface": "#FDFCFB",
+                        "on-background": "#e5e2e1",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-fixed": "#1b1c19",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "primary-fixed": "#ffdea5",
+                        "on-error": "#690005",
+                        "on-primary": "#412d00",
+                        "surface-bright": "#3a3939"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "section-padding": "120px",
+                        "gutter": "32px",
+                        "container-max": "1280px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "button": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "button": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased overflow-x-hidden pt-24">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-low-light">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<a class="font-display-lg-mobile md:font-display-lg text-headline-md text-primary tracking-tighter" href="#">Zon Bumijaya</a>
+<div class="hidden md:flex gap-8 font-button text-button uppercase">
+<a class="text-on-background hover:text-primary transition-colors hover:text-primary transition-all duration-300" href="#">Who We Are</a>
+<a class="text-on-background hover:text-primary transition-colors hover:text-primary transition-all duration-300" href="#">Products</a>
+<a class="text-primary border-b-2 border-primary pb-1 hover:text-primary transition-all duration-300" href="#">Process</a>
+<a class="text-on-background hover:text-primary transition-colors hover:text-primary transition-all duration-300" href="#">Delivery</a>
+<a class="text-on-background hover:text-primary transition-colors hover:text-primary transition-all duration-300" href="#">Why Us</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="hidden md:block font-button text-button uppercase text-on-background">EN / BM / ZH</span>
+<button class="bg-primary-container text-on-primary font-button text-button uppercase px-6 py-3 scale-95 active:scale-90 transition-transform">Get a Quote</button>
+</div>
+</div>
+</nav>
+<!-- Header Section -->
+<header class="pt-section-padding pb-section-padding px-gutter max-w-container-max mx-auto text-center">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6">From Intake to Delivery</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">A meticulous 7-step process ensuring industrial-scale precision and artisanal quality for every piece of timber.</p>
+</header>
+<!-- Timeline Section -->
+<section class="py-section-padding px-gutter relative max-w-container-max mx-auto">
+<!-- Vertical Line -->
+<div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-primary transform -translate-x-1/2 hidden md:block"></div>
+<div class="flex flex-col gap-section-padding relative z-10">
+<!-- Step 1 -->
+<div class="flex flex-col md:flex-row items-center justify-between w-full">
+<div class="w-full md:w-[45%] text-left">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary text-espresso-dark flex items-center justify-center font-headline-md text-headline-md font-bold">1</div>
+<h3 class="font-headline-lg text-headline-lg text-primary">Log Selection</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Sourcing premium raw materials from sustainable forests. Each log undergoes strict evaluation for grain structure, density, and potential yield.</p>
+</div>
+<div class="w-full md:w-[45%] mt-8 md:mt-0 relative group">
+<div class="absolute -inset-1 bg-primary/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+<img class="w-full h-80 object-cover border border-low-light relative z-10" data-alt="A massive, high-quality timber log being inspected by a worker in an industrial warehouse setting. The scene is illuminated by dramatic, high-contrast factory lighting, emphasizing the raw texture of the wood and the scale of the operation. The atmosphere is grounded and professional, utilizing a dark, espresso-toned background with bright highlights on the wood grain. The style blends raw industrialism with premium craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALg-ucOc3TffuldEJCFhDb61zSSRsUtdT_PxGfBDYg070uqY_cJ1CEBiZlgqef2QDWAQuItUiQXOFm14d2KJqMaH2nvHFVGisE7YASG-kxPeaGCwhejCYI4r4bStuKz9JdyAl2nPcDwO9CrAVnx9t1q3WGXb-c8usDjZukLwrpQYTGoLs0OpACvbSUSx_NWKmdK9EgsVSBwQqDjTpFiWu1yLn5PJsox32QFv8CD4hWqMHgFQE90p9Uwp_Ltm5rbBgCC6ZKJ8KFP3g"/>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col md:flex-row-reverse items-center justify-between w-full">
+<div class="w-full md:w-[45%] text-left md:text-right">
+<div class="flex items-center md:justify-end gap-4 mb-4">
+<div class="w-12 h-12 bg-primary text-espresso-dark flex items-center justify-center font-headline-md text-headline-md font-bold md:order-last">2</div>
+<h3 class="font-headline-lg text-headline-lg text-primary">Cutting &amp; Sizing</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Industrial-scale bandsaws and precision CNC machinery execute rough cuts and precise sizing according to client specifications with minimal waste.</p>
+</div>
+<div class="w-full md:w-[45%] mt-8 md:mt-0 relative group">
+<div class="absolute -inset-1 bg-primary/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+<img class="w-full h-80 object-cover border border-low-light relative z-10" data-alt="A massive industrial bandsaw cutting through a thick timber log in a dark, atmospheric warehouse. Sparks and sawdust fly, catching the intense, focused factory lighting. The scene conveys power, precision, and heavy machinery, dominated by deep blacks, metallic grays, and the warm, golden hues of fresh cut wood. The aesthetic is gritty yet highly professional and controlled." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsNjIuUD-hChD5X1stWhNASoAnKg42V7gafQc9TEBnnv46pWu2tkARwKDakhTreMUSTuwyCJAbSdkhq6_HVvRKvL2xvx151uzBBHmO9iBs1fCLyFi9gZFXtaR8sa-9SCTZ0fbSc51MX7G4okES4uMZ_kB5VzeNDqfaI8DlwTkkIvOwodvjT4tgtaF20MmTh2EJSQsj9C3Jhoc6RlGgeY56NQnLOiwEL0E-l3Sm3Cw-u3A_wBFd0xr6pkwKDn9UqH2PqnNiMTALBU8"/>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col md:flex-row items-center justify-between w-full">
+<div class="w-full md:w-[45%] text-left">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary text-espresso-dark flex items-center justify-center font-headline-md text-headline-md font-bold">3</div>
+<h3 class="font-headline-lg text-headline-lg text-primary">Processing</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Kiln drying and moisture equalization. We meticulously control the environment to ensure optimal stability and prevent future warping or splitting.</p>
+</div>
+<div class="w-full md:w-[45%] mt-8 md:mt-0 relative group">
+<div class="absolute -inset-1 bg-primary/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+<img class="w-full h-80 object-cover border border-low-light relative z-10" data-alt="Stacks of cleanly cut timber planks arranged systematically inside a large industrial kiln drying facility. The environment is warm, hazy, and highly structured, illuminated by soft, diffused overhead lighting that creates a rhythmic pattern across the stacked wood. The color palette features deep espresso shadows contrasting with the warm, golden tones of the processed timber, emphasizing a professional, controlled industrial process." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-nEJ0xGrIdJYh7JgfY8tPLyOgAiWP_zmapZx7hNs-mK-2XHak_uyNpGFR2uSUDfEWqVlZpk_Geq089L2Xt9Ar-kXIuu6ddPa9ggRNDcnXdhTvoDK3U9GeDSS5D1XG2WvRIQsUX2GoxCeu1qEQ-Sx7LlboUseKJwhUVFJ_-LVeB5qxye6p2ifnyURlKnhcF1_HxmaHM72INYEZm5LtQWe1aURIIyjHUHglTTSMYPHmNKjDtEVOKw2OolwBzI7V3WWQ7DjMb9FtFWY"/>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col md:flex-row-reverse items-center justify-between w-full">
+<div class="w-full md:w-[45%] text-left md:text-right">
+<div class="flex items-center md:justify-end gap-4 mb-4">
+<div class="w-12 h-12 bg-primary text-espresso-dark flex items-center justify-center font-headline-md text-headline-md font-bold md:order-last">4</div>
+<h3 class="font-headline-lg text-headline-lg text-primary">Treatment</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Application of industrial-grade preservatives and protective coatings to enhance durability against environmental factors and biological degradation.</p>
+</div>
+<div class="w-full md:w-[45%] mt-8 md:mt-0 relative group">
+<div class="absolute -inset-1 bg-primary/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+<img class="w-full h-80 object-cover border border-low-light relative z-10" data-alt="Close up of treated timber planks passing through a mechanized coating system in a high-tech manufacturing plant. The scene highlights the slick surface of the treated wood under sharp, cool-toned industrial lighting, contrasting with the dark machinery in the background. The mood is precise and efficient, focusing on the quality and durability added during the manufacturing process." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtqIw5enE51zyPkTAghqgCMzLvXCwUkmRFb7o2Mcw_Y1DUWSoFB76P6IwedMcu2e6FgmeXZ9jEuPH6Pe8Wg_9kpdAUX-rvuB8UgjZlmlbIxEwM1srRdbVg7muV4prLlJgbbZQ8FMC5jUCOy3uShrfLJfjrtYw1PMpCekHDEsCuS10eIvQlBSSCVD4C6wXlg4oRGJsfwRc_kdHYJFthBH2eMKv5NKZBiTZTuYuHcObm25LHI-ZH7amPlHa0zuK3pBqS8T1aqlsHL7Q"/>
+</div>
+</div>
+<!-- Step 5 -->
+<div class="flex flex-col md:flex-row items-center justify-between w-full">
+<div class="w-full md:w-[45%] text-left">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary text-espresso-dark flex items-center justify-center font-headline-md text-headline-md font-bold">5</div>
+<h3 class="font-headline-lg text-headline-lg text-primary">Assembly</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">For specialized orders, components are joined and assembled using industrial adhesives and structural fasteners to create complex timber products.</p>
+</div>
+<div class="w-full md:w-[45%] mt-8 md:mt-0 relative group">
+<div class="absolute -inset-1 bg-primary/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+<img class="w-full h-80 object-cover border border-low-light relative z-10" data-alt="Workers in safety gear assembling large timber structural components in a vast, well-lit manufacturing hall. The scene is busy but highly organized, with heavy lifting equipment visible in the background. The lighting is bright and clean, emphasizing the scale of the operation and the precise craftsmanship involved in joining massive wood pieces together. The aesthetic is modern industrial." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0jmPfgshaCzLY0Tvdy9YCjrEzo6Cd-FyLN5yhc8e1v2dsa_MPn6yuClaexT9aZ5OHFtOoddCJLlRIGMLu2ogYBHGNlTKuL76dOvbwW4FMW3PRRrjpgO_3bDKPVIGsh2rtPykJoKOzmSsTCcG-oqgDB0epYYdKAVKp7-VSvo1OOZ9rMmI6g511KT4uRLn8UMG2tYtibqvZJ0oZZgTGFzhxyI1Xbsk0FDbi9MfDZQoHsJLlOpeXyb8K5lq-GXazFNUD_YMOEinxPhQ"/>
+</div>
+</div>
+<!-- Step 6 -->
+<div class="flex flex-col md:flex-row-reverse items-center justify-between w-full">
+<div class="w-full md:w-[45%] text-left md:text-right">
+<div class="flex items-center md:justify-end gap-4 mb-4">
+<div class="w-12 h-12 bg-primary text-espresso-dark flex items-center justify-center font-headline-md text-headline-md font-bold md:order-last">6</div>
+<h3 class="font-headline-lg text-headline-lg text-primary">Quality Check</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Rigorous manual and automated inspections. We verify dimensions, structural integrity, and finish quality against our stringent 30-year standards.</p>
+</div>
+<div class="w-full md:w-[45%] mt-8 md:mt-0 relative group">
+<div class="absolute -inset-1 bg-primary/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+<img class="w-full h-80 object-cover border border-low-light relative z-10" data-alt="A close-up shot of a quality inspector using precision digital calipers to measure a finished timber product in a bright, clean inspection area. The background is slightly blurred, showing rows of completed stock. The lighting is stark and objective, highlighting the exact dimensions and flawless finish of the wood. The mood is serious, professional, and focused on uncompromising quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0iR1ItPXfUvm_wRkqyl8zneQHo3jgKOXI89xWQzuDyHa4TMKSGrqgCa1nywU6R_HrcJInf3d11O2hgsjtYH00dJPueaFnKO1dccdMSXaqSuxuwkHylF1W69pJP9d3QZSGqCof3UobMifDIwaor348QE8k6DaNGkXEA-FPWLvUbyMo4IEhfdOkVgHE5n3grVTJJ-2zmdye4GAIuUAirfDaV6j3B3DD528cW23dMGJbL-6-gKunGOBHgXD9sDoJRllnlqdihV2W_aw"/>
+</div>
+</div>
+<!-- Step 7 -->
+<div class="flex flex-col md:flex-row items-center justify-between w-full">
+<div class="w-full md:w-[45%] text-left">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary text-espresso-dark flex items-center justify-center font-headline-md text-headline-md font-bold">7</div>
+<h3 class="font-headline-lg text-headline-lg text-primary">Delivery</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Secure packaging and logistics coordination. We manage industrial-scale shipping to ensure products arrive safely and on schedule, globally.</p>
+</div>
+<div class="w-full md:w-[45%] mt-8 md:mt-0 relative group">
+<div class="absolute -inset-1 bg-primary/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+<img class="w-full h-80 object-cover border border-low-light relative z-10" data-alt="A fleet of heavy-duty flatbed trucks loaded with securely strapped stacks of finished timber, parked outside a massive, dark industrial warehouse at dusk. The scene is illuminated by dramatic security lighting and the headlights of the trucks, creating a sense of scale, logistics, and readiness. The color palette emphasizes the contrast between the dark, moody environment and the golden tones of the wood and bright artificial lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPR_QosRWKi5ERGBdbxtVUUnJy3irp4lWafwRUH9vpoZM_IUtLCpW40vrINnJSXcAv8Bx-Ypn8Zp0Yf3z7acn64JfPaCDIjC44ZLycSFU1T10c01m3uHaYtIbPNpwTTzVux_qxa7pjuwdZfIH0-u2oeeBwEFXfYsk0ytMsccM9tmjEmg4qtN1D63mW0JASIA8epoMJ2-GZgPPLw32d6KTMJbeY6LoBJV7ao0e04K5IHU1sEhMvGRBFV_lGIwPUnJmfB2AwEQ7Zocc"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-espresso-dark w-full grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter py-section-padding max-w-container-max mx-auto border-t border-surface-container-highest mt-24">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Zon Bumijaya</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Zon Bumijaya Enterprise. SSM: 002845678-X. All Rights Reserved.</p>
+</div>
+<div class="flex flex-col gap-2">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:text-gold-muted transition-colors opacity-80 hover:opacity-100" href="#">Contact Us</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:text-gold-muted transition-colors opacity-80 hover:opacity-100" href="#">WhatsApp Support</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:text-gold-muted transition-colors opacity-80 hover:opacity-100" href="#">Request Quote</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:text-gold-muted transition-colors opacity-80 hover:opacity-100" href="#">Our Location</a>
+</div>
+</footer>
+</body></html>
