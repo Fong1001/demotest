@@ -1,25 +1,34 @@
 {
     "name": "aimeos/aimeos",
     "description": "Aimeos ecommerce and shop system",
-    "keywords": ["aimeos", "ecommerce", "shop", "laravel", "distribution"],
+    "keywords": [
+        "aimeos",
+        "ecommerce",
+        "shop",
+        "laravel",
+        "distribution"
+    ],
     "license": "MIT",
     "type": "project",
-    "repositories": [{
-        "type": "composer",
-        "url": "https://packages.aimeos.org/aimeoscom"
-    }, {
-        "type": "path",
-        "url": "packages/*"
-    }],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.aimeos.org/aimeoscom"
+        },
+        {
+            "type": "path",
+            "url": "packages/*"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "composer-runtime-api": "^2.2",
-        "aimeos/aimeos-laravel": "~2026.04",
         "guzzlehttp/guzzle": "^7.2",
+        "laravel/breeze": "^2.0",
         "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
-        "laravel/breeze": "^2.0"
+        "lunarphp/lunar": "^1.5@beta"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -45,7 +54,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
