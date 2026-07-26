@@ -21,6 +21,8 @@ export const metadata: Metadata = {
   description: "Timber supply, processing, and delivery company based in Johor Bahru, Malaysia.",
 };
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 export default async function RootLayout({
   children,
   params
@@ -39,10 +41,13 @@ export default async function RootLayout({
     <html
       lang={locale}
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-body bg-background text-on-background">
+      <body className="min-h-full flex flex-col font-body bg-background text-on-background transition-colors duration-300">
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+            {children}
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

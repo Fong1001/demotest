@@ -20,7 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        \Lunar\Admin\Support\Facades\LunarPanel::panel(function ($panel) {
+            return $panel
+                ->brandName('Zonbumi Store')
+                ->brandLogo(null)
+                ->darkModeBrandLogo(null);
+        })->register();
     }
 
     /**

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, MessageCircle } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -59,6 +60,12 @@ export default function HomePage() {
   const t = useTranslations('Index');
   const [scrolled, setScrolled] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [products, setProducts] = useState<any[]>([
+    // Fallback data while fetching
+    { title: 'Solid Wood Pallet', img: '/solid_pallet.png', desc: 'Heavy-duty industrial logistics.', id: '1' },
+    { title: 'Laminated Wood', img: '/laminated_wood.png', desc: 'Engineered structural integrity.', id: '2' },
+    { title: 'Finger Joint', img: '/finger_joint.png', desc: 'Flawless interlocking strength.', id: '3' }
+  ]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const horizontalScrollRef = useRef<HTMLDivElement>(null);
@@ -159,6 +166,40 @@ export default function HomePage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
+    
+    // Fetch live products from Aimeos JSON API
+    fetch('http://localhost:8000/jsonapi/product?include=media,text')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.data) {
+          const liveProducts = data.data.map((item: any) => {
+            // Find related media and text from included relationships
+            const mediaIds = item.relationships?.media?.data?.map((m: any) => m.id) || [];
+            const textIds = item.relationships?.text?.data?.map((t: any) => t.id) || [];
+            
+            let img = '/hero_timber.png'; // default fallback
+            let desc = 'Premium Industrial Timber';
+            
+            if (data.included) {
+              const media = data.included.find((inc: any) => inc.type === 'media' && mediaIds.includes(inc.id));
+              if (media && media.attributes) img = media.attributes['media.url'];
+              
+              const text = data.included.find((inc: any) => inc.type === 'text' && textIds.includes(inc.id));
+              if (text && text.attributes) desc = text.attributes['text.content'];
+            }
+            
+            return {
+              id: item.id,
+              title: item.attributes['product.label'],
+              desc: desc,
+              img: img
+            };
+          });
+          if (liveProducts.length > 0) setProducts(liveProducts);
+        }
+      })
+      .catch(err => console.error("Aimeos fetch error:", err));
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -173,17 +214,21 @@ export default function HomePage() {
   return (
     <div ref={containerRef} className="flex flex-col min-h-screen bg-background text-on-background overflow-hidden selection:bg-primary selection:text-on-primary">
       {/* Sticky Header */}
-      <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-background/80 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
+      <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-background/80 backdrop-blur-xl border-b border-on-background/5 py-4' : 'bg-transparent py-8'}`}>
         <div className="max-w-container-max mx-auto px-gutter flex justify-between items-center">
           <div className="font-display text-primary text-headline-md tracking-tighter mix-blend-difference">
             Zon Bumijaya
           </div>
-          <nav className="hidden md:flex gap-12 font-body uppercase text-[11px] tracking-[0.2em] font-semibold mix-blend-difference text-white">
-            {['Who We Are', 'Products', 'Process', 'Why Us'].map((item) => (
+          <nav className="hidden md:flex gap-12 items-center font-body uppercase text-[11px] tracking-[0.2em] font-semibold text-on-background">
+            {['Who We Are', 'Products', 'Process'].map((item) => (
               <Link key={item} href={item === 'Process' ? '/process' : `#${item.toLowerCase().replace(/ /g, '-')}`} className="hover:text-primary transition-colors">
                 {item}
               </Link>
             ))}
+            <a href="http://localhost:8000" className="text-primary hover:text-white transition-colors font-bold flex items-center gap-1 border border-primary/30 px-3 py-1 rounded-full">
+              STORE
+            </a>
+            <ThemeToggle />
           </nav>
         </div>
       </header>
@@ -192,9 +237,8 @@ export default function HomePage() {
         {/* Artisan Hero Section */}
         <section className="relative h-screen flex items-center justify-center px-gutter overflow-hidden">
           <div className="absolute inset-0 z-0 bg-background overflow-hidden">
-            <Image ref={heroImageRef} src="/hero_timber.png" alt="Industrial Timber" fill className="object-cover scale-110 origin-top" priority />
-            <div className="absolute inset-0 bg-gradient-to-b from-espresso-dark/40 via-espresso-dark/70 to-background"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-60 mix-blend-screen"></div>
+            <Image ref={heroImageRef} src="/hero_timber.png" alt="Industrial Timber" fill className="object-cover scale-110 origin-top opacity-60" priority unoptimized={true} />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-background/90"></div>
           </div>
 
           <div className="z-10 w-full max-w-container-max mx-auto flex flex-col justify-center h-full pt-20" style={{ perspective: 1000 }}>
@@ -210,9 +254,11 @@ export default function HomePage() {
             </h1>
             
             <div className="hero-button absolute bottom-16 right-gutter flex gap-6">
-              <MagneticButton className="bg-primary text-on-primary font-body uppercase text-[10px] tracking-widest px-8 py-5 rounded-full hover:bg-gold-muted flex items-center gap-2 shadow-[0_0_30px_rgba(233,193,118,0.3)]">
-                Start a Project
-              </MagneticButton>
+              <a href="http://localhost:8000">
+                <MagneticButton className="bg-primary text-on-primary font-body uppercase text-[10px] tracking-widest px-8 py-5 rounded-full hover:bg-gold-muted flex items-center gap-2 shadow-[0_0_30px_rgba(233,193,118,0.3)]">
+                  Enter Store
+                </MagneticButton>
+              </a>
             </div>
           </div>
         </section>
@@ -226,12 +272,12 @@ export default function HomePage() {
               <div className="md:col-span-5 relative">
                 <div className="aspect-[3/4] relative border border-white/10 p-2 reveal-image bg-surface-dim">
                   <div className="relative w-full h-full overflow-hidden">
-                    <Image src="/laminated_wood.png" alt="Wood details" fill className="object-cover scale-105" />
+                    <Image src="/laminated_wood.png" alt="Wood details" fill className="object-cover scale-105" unoptimized={true} />
                   </div>
                 </div>
                 <div className="absolute -bottom-16 -right-16 aspect-square w-64 border border-primary/20 bg-surface-dim p-2 hidden md:block backdrop-blur-md reveal-image">
                   <div className="relative w-full h-full overflow-hidden">
-                    <Image src="/finger_joint.png" alt="Joinery" fill className="object-cover scale-105" />
+                    <Image src="/finger_joint.png" alt="Joinery" fill className="object-cover scale-105" unoptimized={true} />
                   </div>
                 </div>
               </div>
@@ -258,23 +304,19 @@ export default function HomePage() {
           <div className="max-w-container-max mx-auto relative z-10">
             <div className="flex justify-between items-end mb-16 border-b border-white/10 pb-8 reveal-up">
               <h2 className="font-display text-headline-xl text-white">The Collection</h2>
-              <Link href="/products" className="text-primary font-body uppercase text-xs tracking-widest hover:text-white transition-colors">View All Directory</Link>
+              <a href="http://localhost:8000" className="text-primary font-body uppercase text-xs tracking-widest hover:text-white transition-colors">View Live Directory</a>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { title: 'Solid Wood Pallet', img: '/solid_pallet.png', desc: 'Heavy-duty industrial logistics.' },
-                { title: 'Laminated Wood', img: '/laminated_wood.png', desc: 'Engineered structural integrity.' },
-                { title: 'Finger Joint', img: '/finger_joint.png', desc: 'Flawless interlocking strength.' }
-              ].map((product, idx) => (
-                <div key={product.title} className="group cursor-pointer block reveal-up">
+              {products.map((product, idx) => (
+                <a key={product.id || idx} href={`http://localhost:8000/shop`} className="group cursor-pointer block reveal-up">
                   <div className="aspect-[4/5] relative overflow-hidden mb-6 bg-background">
-                    <Image src={product.img} alt={product.title} fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110" />
+                    <Image src={product.img} alt={product.title} fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110" unoptimized={true} />
                     <div className="absolute inset-0 border border-white/0 group-hover:border-primary/50 transition-colors duration-500 m-4"></div>
                   </div>
                   <h3 className="font-display text-2xl text-white mb-2">{product.title}</h3>
-                  <p className="font-body text-sm text-on-surface-variant uppercase tracking-widest">{product.desc}</p>
-                </div>
+                  <p className="font-body text-sm text-on-surface-variant uppercase tracking-widest line-clamp-2">{product.desc}</p>
+                </a>
               ))}
             </div>
           </div>
@@ -289,15 +331,27 @@ export default function HomePage() {
              
              {/* The Track that moves left */}
              <div ref={horizontalWrapRef} className="flex gap-24 items-center h-full w-max">
-                {[1, 2, 3, 4, 5, 6, 7].map((step) => (
-                  <div key={step} className="w-[80vw] md:w-[40vw] shrink-0 border-l border-white/10 pl-8 relative">
-                    <div className="absolute -left-3 top-0 w-6 h-6 bg-background border border-primary flex items-center justify-center text-primary font-body text-[10px] rounded-full">
-                      {step}
+                {[1, 2, 3, 4, 5, 6, 7].map((step) => {
+                  const images = ['/hero_timber.png', '/solid_pallet.png', '/laminated_wood.png', '/finger_joint.png'];
+                  const stepImage = images[(step - 1) % images.length];
+
+                  return (
+                    <div key={step} className="w-[85vw] md:w-[45vw] shrink-0 border-l border-on-background/10 pl-8 relative flex flex-col md:flex-row gap-8 items-center">
+                      <div className="absolute -left-3 top-0 w-6 h-6 bg-background border border-primary flex items-center justify-center text-primary font-body text-[10px] rounded-full">
+                        {step}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-display text-5xl md:text-7xl text-on-background mb-6 mt-12">Phase {step}</h3>
+                        <p className="font-body text-on-surface-variant text-xl md:text-2xl leading-relaxed max-w-lg">
+                          Meticulous industrial grading and precision cutting tailored to client specifications. Every millimetre accounted for before proceeding down the line.
+                        </p>
+                      </div>
+                      <div className="flex-1 w-full aspect-video relative overflow-hidden bg-surface-variant/30 hidden md:block">
+                        <Image src={stepImage} alt={`Phase ${step}`} fill className="object-cover" unoptimized={true} />
+                      </div>
                     </div>
-                    <h3 className="font-display text-5xl md:text-7xl text-white mb-6 mt-12">Phase {step}</h3>
-                    <p className="font-body text-on-surface-variant text-xl md:text-2xl leading-relaxed max-w-lg">Meticulous industrial grading and precision cutting tailored to client specifications. Every millimetre accounted for before proceeding down the line.</p>
-                  </div>
-                ))}
+                  );
+                })}
              </div>
           </div>
         </section>
