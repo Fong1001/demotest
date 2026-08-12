@@ -11,6 +11,7 @@ const isStaticExport = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
   ...(isStaticExport && { output: "export" }),
+  trailingSlash: true,
 
   turbopack: {
     root: path.resolve(__dirname),

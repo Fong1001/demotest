@@ -1,13 +1,5 @@
 # Cloudflare Pages _redirects
-# Handles i18n locale routing since middleware can't run in static export mode
+# Handles root redirect to default locale since middleware can't run in static export mode
 
-# Root redirect — send / to /en
-/                   /en                 302
-
-# Language root redirects
-/ms                 /ms/index.html      200
-/zh                 /zh/index.html      200
-/en                 /en/index.html      200
-
-# Fallback — serve 404 page
-/*                  /en/404.html        404
+# Root redirect — send / to /en/
+/                   /en/                 302
