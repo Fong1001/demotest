@@ -1,6 +1,6 @@
 import { fetchProductBySku, MOCK_PRODUCTS } from '@/lib/api/lunar';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { setRequestLocale } from 'next-intl/server';
 
 interface ProductPageProps {
