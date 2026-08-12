@@ -39,6 +39,11 @@ export const MOCK_PRODUCTS: LunarProduct[] = [
 ];
 
 export async function fetchLiveProducts(): Promise<LunarProduct[]> {
+  // During production builds (for static export), do not call the local backend.
+  if (process.env.NODE_ENV === 'production') {
+    return MOCK_PRODUCTS;
+  }
+
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 3000); // 3 second timeout

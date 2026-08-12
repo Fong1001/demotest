@@ -1,8 +1,17 @@
 import { fetchLiveProducts } from '@/lib/api/lunar';
 import Image from 'next/image';
 import Link from 'next/link';
+import { setRequestLocale } from 'next-intl/server';
 
-export default async function ShopDemoPage() {
+interface ShopPageProps {
+  params: Promise<{
+    locale: string;
+  }>;
+}
+
+export default async function ShopDemoPage({ params }: ShopPageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const products = await fetchLiveProducts();
 
   return (

@@ -1,16 +1,33 @@
-import { fetchProductBySku } from '@/lib/api/lunar';
+import { fetchProductBySku, MOCK_PRODUCTS } from '@/lib/api/lunar';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { setRequestLocale } from 'next-intl/server';
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     locale: string;
     slug: string;
-  };
+  }>;
+}
+
+// Required for output:export — pre-generates all known product pages at build time
+export async function generateStaticParams() {
+  const locales = ['en', 'ms', 'zh'];
+  // Use mock SKUs + any backend slugs (product-1, product-2, product-3)
+  const slugs = [
+    ...MOCK_PRODUCTS.map((p) => p.sku),
+    'product-1',
+    'product-2',
+    'product-3',
+  ];
+  return locales.flatMap((locale) =>
+    slugs.map((slug) => ({ locale, slug }))
+  );
 }
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const product = await fetchProductBySku(slug);
 
   if (!product) {

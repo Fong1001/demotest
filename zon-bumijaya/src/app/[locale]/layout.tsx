@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "../globals.css";
 import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
+import {getMessages, setRequestLocale} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
+
+// Required for output:export — tells Next.js which locale paths to pre-render
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,6 +39,9 @@ export default async function RootLayout({
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
+
+  // Enable static rendering for next-intl
+  setRequestLocale(locale);
  
   const messages = await getMessages();
 
