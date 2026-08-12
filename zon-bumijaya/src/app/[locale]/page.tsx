@@ -62,9 +62,9 @@ export default function HomePage() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [products, setProducts] = useState<any[]>([
     // Fallback data while fetching
-    { title: 'Solid Wood Pallet', img: '/solid_pallet.png', desc: 'Heavy-duty industrial logistics.', id: '1' },
-    { title: 'Laminated Wood', img: '/laminated_wood.png', desc: 'Engineered structural integrity.', id: '2' },
-    { title: 'Finger Joint', img: '/finger_joint.png', desc: 'Flawless interlocking strength.', id: '3' }
+    { title: 'Solid Wood Pallet', img: '/solid_pallet.png', desc: 'Heavy-duty industrial logistics.', id: '1', sku: 'PALLET-001' },
+    { title: 'Laminated Wood', img: '/laminated_wood.png', desc: 'Engineered structural integrity.', id: '2', sku: 'LVL-BEAM-001' },
+    { title: 'Finger Joint', img: '/finger_joint.png', desc: 'Flawless interlocking strength.', id: '3', sku: 'FINGER-JOINT-001' }
   ]);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -166,41 +166,47 @@ export default function HomePage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
-    
-    // Fetch live products from Aimeos JSON API
-    fetch('http://localhost:8000/jsonapi/product?include=media,text')
-      .then(res => res.json())
+
+    // Attempt to fetch live products — silently fall back to mock data if backend is unavailable
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+
+    fetch('http://localhost:8000/jsonapi/product?include=media,text', { signal: controller.signal })
+      .then(res => {
+        clearTimeout(timeout);
+        return res.json();
+      })
       .then(data => {
         if (data && data.data) {
           const liveProducts = data.data.map((item: any) => {
-            // Find related media and text from included relationships
             const mediaIds = item.relationships?.media?.data?.map((m: any) => m.id) || [];
             const textIds = item.relationships?.text?.data?.map((t: any) => t.id) || [];
-            
-            let img = '/hero_timber.png'; // default fallback
+
+            let img = '/hero_timber.png';
             let desc = 'Premium Industrial Timber';
-            
+
             if (data.included) {
               const media = data.included.find((inc: any) => inc.type === 'media' && mediaIds.includes(inc.id));
-              if (media && media.attributes) img = media.attributes['media.url'];
-              
+              if (media?.attributes) img = media.attributes['media.url'];
+
               const text = data.included.find((inc: any) => inc.type === 'text' && textIds.includes(inc.id));
-              if (text && text.attributes) desc = text.attributes['text.content'];
+              if (text?.attributes) desc = text.attributes['text.content'];
             }
-            
-            return {
-              id: item.id,
-              title: item.attributes['product.label'],
-              desc: desc,
-              img: img
-            };
+
+            return { id: item.id, title: item.attributes['product.label'], desc, img, sku: 'product-' + item.id };
           });
           if (liveProducts.length > 0) setProducts(liveProducts);
         }
       })
-      .catch(err => console.error("Aimeos fetch error:", err));
+      .catch(() => {
+        // Backend offline — mock data already displayed, nothing to do
+        clearTimeout(timeout);
+      });
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      controller.abort();
+    };
   }, []);
 
   const toggleFaq = (i: number) => {
@@ -221,13 +227,13 @@ export default function HomePage() {
           </div>
           <nav className="hidden md:flex gap-12 items-center font-body uppercase text-[11px] tracking-[0.2em] font-semibold text-on-background">
             {['Who We Are', 'Products', 'Process'].map((item) => (
-              <Link key={item} href={item === 'Process' ? '/process' : `#${item.toLowerCase().replace(/ /g, '-')}`} className="hover:text-primary transition-colors">
+              <Link key={item} href={item === 'Process' ? '#how-we-work' : `#${item.toLowerCase().replace(/ /g, '-')}`} className="hover:text-primary transition-colors">
                 {item}
               </Link>
             ))}
-            <a href="http://localhost:8000" className="text-primary hover:text-white transition-colors font-bold flex items-center gap-1 border border-primary/30 px-3 py-1 rounded-full">
+            <Link href="/shop" className="text-primary hover:text-on-background transition-colors font-bold flex items-center gap-1 border border-primary/30 px-3 py-1 rounded-full">
               STORE
-            </a>
+            </Link>
             <ThemeToggle />
           </nav>
         </div>
@@ -238,7 +244,7 @@ export default function HomePage() {
         <section className="relative h-screen flex items-center justify-center px-gutter overflow-hidden">
           <div className="absolute inset-0 z-0 bg-background overflow-hidden">
             <Image ref={heroImageRef} src="/hero_timber.png" alt="Industrial Timber" fill className="object-cover scale-110 origin-top opacity-60" priority unoptimized={true} />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-background/90"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70"></div>
           </div>
 
           <div className="z-10 w-full max-w-container-max mx-auto flex flex-col justify-center h-full pt-20" style={{ perspective: 1000 }}>
@@ -254,11 +260,11 @@ export default function HomePage() {
             </h1>
             
             <div className="hero-button absolute bottom-16 right-gutter flex gap-6">
-              <a href="http://localhost:8000">
+              <Link href="/shop">
                 <MagneticButton className="bg-primary text-on-primary font-body uppercase text-[10px] tracking-widest px-8 py-5 rounded-full hover:bg-gold-muted flex items-center gap-2 shadow-[0_0_30px_rgba(233,193,118,0.3)]">
                   Enter Store
                 </MagneticButton>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -283,7 +289,7 @@ export default function HomePage() {
               </div>
               
               <div className="md:col-span-6 md:col-start-7 pt-12 md:pt-0">
-                <h2 className="font-display text-headline-xl text-white mb-8 reveal-up">
+                <h2 className="font-display text-headline-xl text-on-background mb-8 reveal-up">
                   Raw nature meets <br /><span className="text-primary italic">industrial precision.</span>
                 </h2>
                 <p className="font-body text-on-surface-variant text-lg leading-relaxed mb-6 reveal-up">
@@ -303,20 +309,20 @@ export default function HomePage() {
           
           <div className="max-w-container-max mx-auto relative z-10">
             <div className="flex justify-between items-end mb-16 border-b border-white/10 pb-8 reveal-up">
-              <h2 className="font-display text-headline-xl text-white">The Collection</h2>
-              <a href="http://localhost:8000" className="text-primary font-body uppercase text-xs tracking-widest hover:text-white transition-colors">View Live Directory</a>
+              <h2 className="font-display text-headline-xl text-on-background">The Collection</h2>
+              <Link href="/shop" className="text-primary font-body uppercase text-xs tracking-widest hover:text-on-background transition-colors">View Live Directory</Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {products.map((product, idx) => (
-                <a key={product.id || idx} href={`http://localhost:8000/shop`} className="group cursor-pointer block reveal-up">
+                <Link key={product.id || idx} href={`/shop/${product.sku}`} className="group cursor-pointer block reveal-up">
                   <div className="aspect-[4/5] relative overflow-hidden mb-6 bg-background">
                     <Image src={product.img} alt={product.title} fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110" unoptimized={true} />
                     <div className="absolute inset-0 border border-white/0 group-hover:border-primary/50 transition-colors duration-500 m-4"></div>
                   </div>
-                  <h3 className="font-display text-2xl text-white mb-2">{product.title}</h3>
+                  <h3 className="font-display text-2xl text-on-background mb-2">{product.title}</h3>
                   <p className="font-body text-sm text-on-surface-variant uppercase tracking-widest line-clamp-2">{product.desc}</p>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -359,7 +365,7 @@ export default function HomePage() {
         {/* FAQ Accordion */}
         <section className="py-[150px] px-gutter bg-surface-dim border-t border-white/5 relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h2 className="font-display text-headline-xl text-white mb-16 text-center reveal-up">Inquiries</h2>
+            <h2 className="font-display text-headline-xl text-on-background mb-16 text-center reveal-up">Inquiries</h2>
             <div className="space-y-2 reveal-up">
               {[
                 { q: "What types of timber do you process?", a: "We specialize in processing various hardwoods and softwoods suitable for industrial applications, including our core products: solid wood pallets, laminated wood, and finger joints." },
@@ -368,7 +374,7 @@ export default function HomePage() {
               ].map((faq, i) => (
                 <div key={i} className="border-b border-white/10 overflow-hidden">
                   <button onClick={() => toggleFaq(i)} className="w-full py-8 flex justify-between items-center text-left group">
-                    <h4 className={`font-display text-2xl transition-colors ${activeFaq === i ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
+                    <h4 className={`font-display text-2xl transition-colors ${activeFaq === i ? 'text-primary' : 'text-on-background group-hover:text-primary'}`}>
                       {faq.q}
                     </h4>
                     <ChevronDown className={`text-primary transition-transform duration-500 ${activeFaq === i ? 'rotate-180' : ''}`} />
@@ -396,20 +402,20 @@ export default function HomePage() {
             <p className="font-body text-on-surface-variant text-sm max-w-sm mb-12">
               A meticulous process ensuring industrial-scale precision and artisanal quality for every piece of timber.
             </p>
-            <p className="font-body text-white/30 text-xs">
+            <p className="font-body text-on-background/30 text-xs">
               © 2024 Zon Bumijaya Enterprise. SSM: 202003035274.
             </p>
           </div>
           <div>
-            <h4 className="font-body uppercase text-[10px] text-white tracking-[0.2em] mb-8">Navigation</h4>
+            <h4 className="font-body uppercase text-[10px] text-on-background tracking-[0.2em] mb-8">Navigation</h4>
             <ul className="font-body text-on-surface-variant space-y-4 text-sm">
               <li><Link href="#who-we-are" className="hover:text-primary transition-colors">Who We Are</Link></li>
               <li><Link href="#products" className="hover:text-primary transition-colors">The Collection</Link></li>
-              <li><Link href="/process" className="hover:text-primary transition-colors">The Process</Link></li>
+              <li><Link href="#how-we-work" className="hover:text-primary transition-colors">The Process</Link></li>
             </ul>
           </div>
           <div>
-             <h4 className="font-body uppercase text-[10px] text-white tracking-[0.2em] mb-8">Contact</h4>
+             <h4 className="font-body uppercase text-[10px] text-on-background tracking-[0.2em] mb-8">Contact</h4>
              <ul className="font-body text-on-surface-variant space-y-4 text-sm">
                <li>saleszonbumi@gmail.com</li>
                <li>+60 11-3651 7252</li>

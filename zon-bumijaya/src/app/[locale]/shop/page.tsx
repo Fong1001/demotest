@@ -8,9 +8,9 @@ export default async function ShopDemoPage() {
   return (
     <div className="min-h-screen bg-background text-on-background pb-24">
       {/* Simple Header */}
-      <header className="bg-surface-variant py-8 px-gutter border-b border-white/5">
+      <header className="bg-surface-variant py-8 px-gutter border-b border-on-background/5">
         <div className="max-w-container-max mx-auto flex justify-between items-center">
-          <Link href="/" className="font-display text-primary text-headline-md tracking-tighter hover:text-white transition-colors">
+          <Link href="/" className="font-display text-primary text-headline-md tracking-tighter hover:text-on-background transition-colors">
             Zon Bumijaya
           </Link>
           <span className="font-body text-xs uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 rounded-full">
@@ -22,7 +22,7 @@ export default async function ShopDemoPage() {
       <main className="max-w-container-max mx-auto px-gutter pt-16">
         <div className="mb-16 flex flex-col md:flex-row justify-between items-end">
           <div>
-            <h1 className="font-display text-headline-xl text-white mb-4">Timber Catalog</h1>
+            <h1 className="font-display text-headline-xl text-on-background mb-4">Timber Catalog</h1>
             <p className="font-body text-on-surface-variant max-w-2xl text-lg">
               Explore our premium structural timber and pallets. 
             </p>
@@ -30,12 +30,12 @@ export default async function ShopDemoPage() {
           
           {/* Mock filters for B2B */}
           <div className="mt-8 md:mt-0 flex gap-4">
-            <select className="bg-surface-variant border border-white/10 text-white font-body py-2 px-4 rounded hover:border-primary transition-colors outline-none focus:border-primary">
+            <select className="bg-surface-variant border border-on-background/10 text-on-background font-body py-2 px-4 rounded hover:border-primary transition-colors outline-none focus:border-primary">
               <option>All Grades</option>
               <option>Structural (S1/S2)</option>
               <option>Appearance (A/B)</option>
             </select>
-            <select className="bg-surface-variant border border-white/10 text-white font-body py-2 px-4 rounded hover:border-primary transition-colors outline-none focus:border-primary">
+            <select className="bg-surface-variant border border-on-background/10 text-on-background font-body py-2 px-4 rounded hover:border-primary transition-colors outline-none focus:border-primary">
               <option>Sort by Default</option>
               <option>Price: Low to High</option>
               <option>Price: High to Low</option>
@@ -44,14 +44,14 @@ export default async function ShopDemoPage() {
         </div>
 
         {products.length === 0 ? (
-          <div className="bg-surface-variant p-12 text-center border border-white/5">
-            <h3 className="font-display text-2xl text-white mb-2">No Products Found</h3>
+          <div className="bg-surface-variant p-12 text-center border border-on-background/5">
+            <h3 className="font-display text-2xl text-on-background mb-2">No Products Found</h3>
             <p className="font-body text-on-surface-variant">Could not fetch products from Lunar.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {products.map((product) => (
-              <Link href={`/shop/${product.sku}`} key={product.id} className="group flex flex-col bg-surface-variant border border-white/5 hover:border-primary/50 transition-colors h-full">
+              <Link href={`/shop/${product.sku}`} key={product.id} className="group flex flex-col bg-surface-variant border border-on-background/5 hover:border-primary/50 transition-colors h-full">
                 <div className="aspect-[4/3] relative overflow-hidden bg-white/5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
@@ -68,17 +68,17 @@ export default async function ShopDemoPage() {
                   <span className="font-body text-[10px] uppercase tracking-widest text-primary mb-2">
                     {product.sku}
                   </span>
-                  <h3 className="font-display text-xl text-white mb-2 leading-tight">
+                  <h3 className="font-display text-xl text-on-background mb-2 leading-tight">
                     {product.name}
                   </h3>
                   <p className="font-body text-sm text-on-surface-variant mb-6 line-clamp-2">
                     {product.description}
                   </p>
                   
-                  <div className="mt-auto pt-4 border-t border-white/10 flex justify-between items-center">
+                  <div className="mt-auto pt-4 border-t border-on-background/10 flex justify-between items-center">
                     <div className="flex flex-col">
                       <span className="text-[10px] text-on-surface-variant uppercase tracking-widest">Wholesale</span>
-                      <span className="font-display font-bold text-lg text-white">
+                      <span className="font-display font-bold text-lg text-on-background">
                         {product.formattedPrice}
                       </span>
                     </div>

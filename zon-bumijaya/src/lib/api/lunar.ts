@@ -8,61 +8,88 @@ export interface LunarProduct {
   imageUrl: string;
 }
 
+export const MOCK_PRODUCTS: LunarProduct[] = [
+  {
+    id: '1',
+    sku: 'LVL-BEAM-001',
+    name: 'Premium LVL Timber Beam',
+    price: 15000,
+    formattedPrice: '$150.00',
+    description: 'High strength Laminated Veneer Lumber (LVL) ideal for structural applications.',
+    imageUrl: '/laminated_wood.png'
+  },
+  {
+    id: '2',
+    sku: 'PALLET-001',
+    name: 'Heavy Duty Solid Wood Pallet',
+    price: 4500,
+    formattedPrice: '$45.00',
+    description: 'Industrial grade solid wood pallet designed for heavy loads and export.',
+    imageUrl: '/solid_pallet.png'
+  },
+  {
+    id: '3',
+    sku: 'FINGER-JOINT-001',
+    name: 'Precision Finger Joint',
+    price: 1250,
+    formattedPrice: '$12.50',
+    description: 'Flawlessly engineered finger joint timber for seamless construction.',
+    imageUrl: '/finger_joint.png'
+  }
+];
+
 export async function fetchLiveProducts(): Promise<LunarProduct[]> {
   try {
-    const res = await fetch('http://localhost:8000/api/products', { cache: 'no-store' });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+    const res = await fetch('http://localhost:8000/api/products', {
+      cache: 'no-store',
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
     if (res.ok) {
       const json = await res.json();
       if (json.data && json.data.length > 0) {
-        return json.data.map((p: any) => ({
-          id: p.id,
-          name: p.title,
-          sku: p.slug,
-          price: p.price * 100, // assuming backend returns decimal
-          formattedPrice: `${p.currency === 'USD' ? '$' : p.currency} ${p.price}`,
-          description: p.desc,
-          imageUrl: p.img || 'https://placehold.co/600x400/e9c176/412d00?text=' + encodeURIComponent(p.title)
-        }));
+        return json.data.map((p: any) => {
+          // Detect appropriate local image based on title/slug
+          let localImg = '/hero_timber.png';
+          const titleLower = p.title.toLowerCase();
+          if (titleLower.includes('beam') || titleLower.includes('laminated') || titleLower.includes('lvl')) {
+            localImg = '/laminated_wood.png';
+          } else if (titleLower.includes('pallet')) {
+            localImg = '/solid_pallet.png';
+          } else if (titleLower.includes('joint') || titleLower.includes('finger')) {
+            localImg = '/finger_joint.png';
+          }
+
+          return {
+            id: p.id,
+            name: p.title,
+            sku: p.slug,
+            price: p.price * 100,
+            formattedPrice: `${p.currency === 'USD' ? '$' : p.currency} ${p.price}`,
+            description: p.desc,
+            imageUrl: p.img || localImg
+          };
+        });
       }
     }
   } catch (error) {
-    console.error("Failed to fetch from Lunar API, falling back to mock data.", error);
+    console.error("Backend unavailable, using mock data.", error);
   }
   
-  // Fallback data
-  return [
-    {
-      id: '1',
-      sku: 'LVL-BEAM-001',
-      name: 'Premium LVL Timber Beam',
-      price: 15000,
-      formattedPrice: '$150.00',
-      description: 'High strength Laminated Veneer Lumber (LVL) ideal for structural applications.',
-      imageUrl: 'https://placehold.co/600x400/e9c176/412d00?text=LVL+Beam'
-    },
-    {
-      id: '2',
-      sku: 'PALLET-001',
-      name: 'Heavy Duty Solid Wood Pallet',
-      price: 4500,
-      formattedPrice: '$45.00',
-      description: 'Industrial grade solid wood pallet designed for heavy loads and export.',
-      imageUrl: 'https://placehold.co/600x400/e9c176/412d00?text=Solid+Pallet'
-    },
-    {
-      id: '3',
-      sku: 'FINGER-JOINT-001',
-      name: 'Precision Finger Joint',
-      price: 1250,
-      formattedPrice: '$12.50',
-      description: 'Flawlessly engineered finger joint timber for seamless construction.',
-      imageUrl: 'https://placehold.co/600x400/e9c176/412d00?text=Finger+Joint'
-    }
-  ];
+  return MOCK_PRODUCTS;
 }
 
 export async function fetchProductBySku(sku: string): Promise<LunarProduct | null> {
   const products = await fetchLiveProducts();
-  const product = products.find((p) => p.sku.toLowerCase() === sku.toLowerCase());
+  let product = products.find((p) => p.sku.toLowerCase() === sku.toLowerCase());
+  
+  // If not found in live products (e.g. because backend is running and only returned backend products),
+  // fallback to searching the mock products.
+  if (!product) {
+    product = MOCK_PRODUCTS.find((p) => p.sku.toLowerCase() === sku.toLowerCase());
+  }
+  
   return product || null;
 }
